@@ -18,9 +18,12 @@ public class BackendApplication {
 	@Bean
 	public CommandLineRunner cargarProductos(ProductoService service) {
 		return args -> {
-			service.guardar(new Producto("Yerba"));
-			service.guardar(new Producto("Pepsi"));
-			System.out.println(service.listarTodos());
+			if(service.listarTodos().isEmpty()) {
+				service.guardar(new Producto("Yerba"));
+				service.guardar(new Producto("Pepsi"));
+				System.out.println(service.listarTodos());
+			}
+			
 		};
 	}
 

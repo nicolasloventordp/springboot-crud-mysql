@@ -11,7 +11,8 @@ import jakarta.persistence.Table;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    // id tipo long para que mysql genere automaticamente un id autoincremetal
+    private long id;
     private String nombre;
 
     public Producto(String nombre){
@@ -27,7 +28,7 @@ public class Producto {
     public void setId(int id){ this.id = id; }
     //getters
     public String getNombre(){ return this.nombre; }
-    public int getId(){ return this.id; }
+    public long getId(){ return this.id; }
 
     //toString
     @Override

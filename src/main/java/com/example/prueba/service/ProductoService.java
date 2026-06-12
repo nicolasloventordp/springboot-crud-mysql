@@ -7,50 +7,51 @@ import org.springframework.stereotype.Service;
 
 import com.example.prueba.excepcion.ProductoInexistente;
 import com.example.prueba.model.Producto;
+import com.example.prueba.repository.ProductoRepository;
 import com.example.prueba.util.Validador;
 
 @Service
 public class ProductoService {
     // atributos
     private List<Producto> productos = new ArrayList<>();
-    private int contadorId = 0;
+    private ProductoRepository repository;
 
+    public ProductoService(ProductoRepository repository) {
+        this.repository = repository;
+    }
     // lista todos los productos
     public List<Producto> listarTodos() {
-        return productos;
+        return repository.findAll();
     }
 
     // Obtiene un producto por id si no existe lanza excepción
     public Producto obtenerPorId(int id) throws ProductoInexistente {
-        for (Producto p : productos) {
-            if (p.getId() == id) {
-                return p;
-            }
-        }
-        throw new ProductoInexistente("No hay producto con id " + id);
+        return repository.findById(id)
+                .orElseThrow( () -> new ProductoInexistente("No hay producto con id " + id));
+        
     }
 
     // guarda un producto
     public Producto guardar(Producto p) {
         Validador.validarNombre(p.getNombre());
-        p.setId(contadorId);
-        productos.add(p);
-        contadorId++;
+        repository.save(p);
         return p;
     }
 
     // actualizar un producto
-    public Producto actualizar(int id, Producto p) throws ProductoInexistente {
-        Producto encontrado = obtenerPorId(p.getId());
-        // si no lo encuentra lanza excepción
-        Validador.validarNombre(encontrado.getNombre());
-        encontrado.setNombre(p.getNombre());
+    public Producto actualizar(int id, Producto datos) throws ProductoInexistente {
+        Producto p = obtenerPorId(id);
+        // si no encuentra el producto lanza excepcion ProductoInexistente
+        Validador.validarNombre(datos.getNombre());
+        p.setNombre(datos.getNombre());
+        repository.save(p);
         return p;
     }
 
     // eliminar producto
-    public boolean eliminar(int id) {
-        return productos.removeIf( p -> p.getId() == id);
+    public void eliminar(int id) throws ProductoInexistente {
+        Producto p = obtenerPorId(id);
+        repository.delete(p);
     }
 
 }

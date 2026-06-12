@@ -59,9 +59,10 @@ public class ProductoController {
 
     // PUT /productos/{id} - 200 si existe con el producto actualizado, 404 si no.
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarProducto(@PathVariable int id, @RequestBody Producto p) {
+    public ResponseEntity<?> actualizarProducto(@PathVariable int id, @RequestBody Producto datos) {
         try {
-            Producto actualizado = service.actualizar(id, p);
+            //return ResponseEntity.ok(datos);
+            Producto actualizado = service.actualizar(id, datos);
             return ResponseEntity.ok(actualizado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMsj(e.getMessage()));
