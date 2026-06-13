@@ -4,7 +4,13 @@ public class Validador {
     
     public static void validarNombre(String nombre){
         if(nombre.isEmpty() || nombre == null){
-            throw new IllegalArgumentException("EL nombre no puede estar vacío");
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
+    }
+
+    public static void validarCategoria(String categoria){
+        if(categoria.isEmpty() || categoria == null){
+            throw new IllegalArgumentException("La categoría no puede estar vacía.");
         }
     }
 }

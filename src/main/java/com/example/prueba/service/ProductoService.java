@@ -34,6 +34,7 @@ public class ProductoService {
     // guarda un producto
     public Producto guardar(Producto p) {
         Validador.validarNombre(p.getNombre());
+        Validador.validarCategoria(p.getCategoria());
         repository.save(p);
         return p;
     }
@@ -43,7 +44,9 @@ public class ProductoService {
         Producto p = obtenerPorId(id);
         // si no encuentra el producto lanza excepcion ProductoInexistente
         Validador.validarNombre(datos.getNombre());
+        Validador.validarCategoria(datos.getCategoria());
         p.setNombre(datos.getNombre());
+        p.setCategoria(datos.getCategoria());
         repository.save(p);
         return p;
     }

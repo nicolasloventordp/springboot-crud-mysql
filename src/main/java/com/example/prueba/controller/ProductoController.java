@@ -61,7 +61,6 @@ public class ProductoController {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarProducto(@PathVariable int id, @RequestBody Producto datos) {
         try {
-            //return ResponseEntity.ok(datos);
             Producto actualizado = service.actualizar(id, datos);
             return ResponseEntity.ok(actualizado);
         } catch (Exception e) {
@@ -73,8 +72,8 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarProducto(@PathVariable int id) {
         try {
-            boolean borrado = service.eliminar(id);
-            return ResponseEntity.ok(borrado);
+            service.eliminar(id);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMsj(e.getMessage()));
         }
